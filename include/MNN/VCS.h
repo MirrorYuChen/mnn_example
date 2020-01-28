@@ -1,0 +1,2 @@
+#undef MNN_REVISION
+#undef MNN_REPOSITORY
