@@ -2,7 +2,7 @@
 alibaba MNN, mobilenet classifier
 # **How to use?**
 ## 1. convert model
-## model comes from: 
+## model comes from: https://github.com/tensorflow/models/tree/master/research/slim
 >> ./MNNConvert -f TF --modelFile mobilenet_v1_1.0_224_frozen.pb --MNNModel mobilenet.mnn --bizCode MNN
 ## 2. build
 >> mkdir build && cd build && make -j3
