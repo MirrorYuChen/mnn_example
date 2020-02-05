@@ -1,0 +1,2 @@
+/usr/bin/ar qc libVisionEngine.a  CMakeFiles/VisionEngine.dir/common/common.cpp.o CMakeFiles/VisionEngine.dir/classifier/classifier.cpp.o CMakeFiles/VisionEngine.dir/object/mobilenetssd.cpp.o CMakeFiles/VisionEngine.dir/vision_engine.cpp.o
+/usr/bin/ranlib libVisionEngine.a

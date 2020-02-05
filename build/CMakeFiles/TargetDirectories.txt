@@ -1,0 +1,7 @@
+/home/mirror/workspace/MNN_mobilenet/build/CMakeFiles/rebuild_cache.dir
+/home/mirror/workspace/MNN_mobilenet/build/CMakeFiles/edit_cache.dir
+/home/mirror/workspace/MNN_mobilenet/build/src/CMakeFiles/edit_cache.dir
+/home/mirror/workspace/MNN_mobilenet/build/src/CMakeFiles/object.dir
+/home/mirror/workspace/MNN_mobilenet/build/src/CMakeFiles/VisionEngine.dir
+/home/mirror/workspace/MNN_mobilenet/build/src/CMakeFiles/rebuild_cache.dir
+/home/mirror/workspace/MNN_mobilenet/build/src/CMakeFiles/classifier.dir
