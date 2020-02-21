@@ -1,5 +1,5 @@
-# MNN_mobilenet
-alibaba MNN, mobilenet classifier
+# mnn_example
+alibaba MNN, classifier: mobilenet, object detection: mobilenetssd 
 ## 2020.02.05: add object detection
 ## 2020.01.28: add image classification
 # **How to use?**
