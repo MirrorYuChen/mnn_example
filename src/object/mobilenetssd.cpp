@@ -77,7 +77,7 @@ int MobilenetSSD::Detect(const cv::Mat & img_src, std::vector<ObjectInfo>* objec
 	cv::resize(img_src, img_resized, inputSize_);
 	uint8_t* data_ptr = GetImage(img_resized);
 	pretreat_data_->convert(data_ptr, inputSize_.width, inputSize_.height, 0, input_tensor_);
-	 
+	
 	mobilenetssd_interpreter_->runSession(mobilenetssd_sess_);
 	std::string output_name = "detection_out";
 	MNN::Tensor* output_tensor = mobilenetssd_interpreter_->getSessionOutput(mobilenetssd_sess_, output_name.c_str());
@@ -87,6 +87,7 @@ int MobilenetSSD::Detect(const cv::Mat & img_src, std::vector<ObjectInfo>* objec
 	output_tensor->copyToHostTensor(&output_host);
 
 	auto output_ptr = output_host.host<float>();
+	std::vector<ObjectInfo> objects_tmp;
 	for (int i = 0; i < output_host.height(); ++i) {
 		int index = i * output_host.width();
 		ObjectInfo object;
@@ -97,9 +98,9 @@ int MobilenetSSD::Detect(const cv::Mat & img_src, std::vector<ObjectInfo>* objec
 		object.location_.width = output_ptr[index + 4] * width - object.location_.x;
 		object.location_.height = output_ptr[index + 5] * height - object.location_.y;
 
-		objects->push_back(object);
+		objects_tmp.push_back(object);
 	}
-
+	NMS(objects_tmp, objects, nmsThreshold_);
 
 	std::cout << "end detect." << std::endl;
 

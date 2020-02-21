@@ -1,5 +1,6 @@
 # mnn_example
-alibaba MNN, classifier: mobilenet, object detection: mobilenetssd 
+alibaba MNN, classifier: mobilenet, object detection: mobilenetssd
+## 2020.02.22: add nms demo
 ## 2020.02.05: add object detection
 ## 2020.01.28: add image classification
 # **How to use?**

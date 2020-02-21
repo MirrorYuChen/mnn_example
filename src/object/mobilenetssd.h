@@ -35,6 +35,7 @@ private:
 	std::vector<int> dims_ = { 1, 3, 300, 300 };
 	const float meanVals_[3] = { 0.5f, 0.5f, 0.5f };
 	const float normVals_[3] = { 0.007843f, 0.007843f, 0.007843f };
+	const float nmsThreshold_ = 0.5f;
 
 	std::shared_ptr<MNN::Interpreter> mobilenetssd_interpreter_;
 	MNN::Session* mobilenetssd_sess_ = nullptr;
