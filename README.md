@@ -31,3 +31,11 @@ mkdir build && cd build && make -j3 &&  cd src && ./classifier && ./object && ./
 ![图片](https://github.com/MirrorYuChen/MNN_mobilenet/blob/master/data/images/face_result.jpg)
 ## 6. TODO:
  - [x] add pose
+## 7. reference:
+MNN: https://github.com/alibaba/MNN
+ZQCNN: https://github.com/zuoqing1988/ZQCNN
+MNN_APPLICATION: https://github.com/xindongzhang/MNN-APPLICATIONS
+insightface: https://github.com/deepinsight/insightface
+centerface: https://github.com/Star-Clouds/CenterFace
+seetaface2: https://github.com/seetafaceengine/SeetaFace2
+csdn blog: https://blog.csdn.net/abcd740181246/article/details/90143848
