@@ -1,6 +1,12 @@
 # mnn_example
-alibaba MNN, classifier: mobilenet, object detection: mobilenetssd
-## 2020.02.22: add nms demo
+alibaba MNN, mobilenet classifier, centerface detector, pfld landmarker and zqlandmarker, mobilefacenet
+## 2020.02.21: add mobilefacenet
+## 2020.02.20: use template to reduce the reaptly code in NMS
+## 2020.02.18: refacter the project
+## 2020.02.17: add zwnet and face database
+## 2020.02.16: refacter the project and add zqlandmarker
+## 2020.02.15: add pfld landmarker and face aligner
+## 2020.02.14: add centerface detector
 ## 2020.02.05: add object detection
 ## 2020.01.28: add image classification
 # **How to use?**
@@ -15,11 +21,13 @@ alibaba MNN, classifier: mobilenet, object detection: mobilenetssd
 ```
 ## 2. build
 ```
-mkdir build && cd build && make -j3 &&  cd src && ./classifier && ./object
+mkdir build && cd build && make -j3 &&  cd src && ./classifier && ./object && ./face
 ```
 ## 3. classifier result:
 ![图片](https://github.com/MirrorYuChen/MNN_mobilenet/blob/master/data/images/classify_result.jpg)
 ## 4. object result:
-![图片](https://github.com/MirrorYuChen/mnn_example/blob/master/data/images/object_result.jpg)
-## 5. TODO:
- - [x] add face detection, landmarker, recognizer
+![图片](https://github.com/MirrorYuChen/MNN_mobilenet/blob/master/data/images/object_result.jpg)
+## 5. face detection result:
+![图片](https://github.com/MirrorYuChen/MNN_mobilenet/blob/master/data/images/face_result.jpg)
+## 6. TODO:
+ - [x] add pose

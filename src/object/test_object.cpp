@@ -1,7 +1,7 @@
 #include "../vision_engine.h"
 #include "opencv2/opencv.hpp"
 
-int main(int argc, char* argv[]){
+int TestObject(int argc, char* argv[]){
 	const char* img_path = "../../data/images/object.jpg";
 	cv::Mat img_src = cv::imread(img_path);
 	mirror::VisionEngine* vision_engine = new mirror::VisionEngine();
@@ -9,7 +9,7 @@ int main(int argc, char* argv[]){
 	const char* root_path = "../../data/models";
 	vision_engine->Init(root_path);
 	std::vector<mirror::ObjectInfo> objects;
-	vision_engine->Detect(img_src, &objects);
+	vision_engine->DetectObject(img_src, &objects);
 
 	int num_objects = static_cast<int>(objects.size());
 	for (int i = 0; i < num_objects; ++i) {
@@ -29,4 +29,8 @@ int main(int argc, char* argv[]){
 
 	delete vision_engine;
 	return 0;
+}
+
+int main(int argc, char* argv[]) {
+	return TestObject(argc, argv);
 }

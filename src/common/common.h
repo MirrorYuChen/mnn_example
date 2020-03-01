@@ -1,11 +1,15 @@
 #ifndef _VISION_COMMON_H_
 #define _VISION_COMMON_H_
 
+#include <cmath>
 #include <string>
 #include <vector>
 #include "opencv2/core.hpp"
 
 namespace mirror {
+#define kFaceFeatureDim 128
+#define kFaceNameDim 256
+const int threads_num = 2;
 
 struct ImageInfo {
     std::string label_;
@@ -18,8 +22,18 @@ struct ObjectInfo {
 	float score_;
 };
 
-uint8_t* GetImage(const cv::Mat& img_src);
+struct FaceInfo {
+	cv::Rect location_;
+	float score_;
+	float keypoints_[10];
+};
 
+struct QueryResult {
+    std::string name_;
+    float sim_;
+};
+
+uint8_t* GetImage(const cv::Mat& img_src);
 float InterRectArea(const cv::Rect& a, const cv::Rect& b);
 int ComputeIOU(const cv::Rect& rect1, const cv::Rect& rect2, float* iou, const std::string& type = "UNION");
 
@@ -59,6 +73,8 @@ int const NMS(const std::vector<T>& inputs, std::vector<T>* result,
     }
 }
 
+float CalculateSimilarity(const std::vector<float>&feat1, const std::vector<float>& feat2);
+float Logists(const float& value);
 
 }
 

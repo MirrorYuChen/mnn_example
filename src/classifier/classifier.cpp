@@ -104,7 +104,7 @@ int Classifier::LoadLabels(const char* root_path) {
 		FILE* fp = fopen(label_file.c_str(), "r");
 		while (!feof(fp)) {
 			char str[1024];
-			if (nullptr == fgets(str, 1024, fp)) continue;
+			if (fgets(str, 1024, fp) == nullptr) continue;
 			std::string str_s(str);
 
 			if (str_s.length() > 0) {

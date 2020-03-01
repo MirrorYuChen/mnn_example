@@ -1,5 +1,8 @@
 #include "common.h"
+#include <algorithm>
+#include <iostream>
 #include "opencv2/imgproc.hpp"
+
 
 namespace mirror {
 
@@ -30,6 +33,29 @@ int ComputeIOU(const cv::Rect& rect1,
     }
 
     return 0;
+}
+
+float CalculateSimilarity(const std::vector<float>&feat1, const std::vector<float>& feat2) {
+    if (feat1.size() != feat2.size()) {
+		std::cout << "feature size not match." << std::endl;
+		return 10003;
+	}
+	float inner_product = 0.0f;
+	float feat_norm1 = 0.0f;
+	float feat_norm2 = 0.0f;
+#if defined(_OPENMP)
+#pragma omp parallel for num_threads(threads_num)
+#endif
+	for(int i = 0; i < kFaceFeatureDim; ++i) {
+		inner_product += feat1[i] * feat2[i];
+		feat_norm1 += feat1[i] * feat1[i];
+		feat_norm2 += feat2[i] * feat2[i];
+	}
+	return inner_product / sqrt(feat_norm1) / sqrt(feat_norm2);
+}
+
+float Logists(const float& value) {
+    return 1.0f / (1.0f + exp(-value));;
 }
 
 }
