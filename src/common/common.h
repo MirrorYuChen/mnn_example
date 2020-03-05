@@ -9,6 +9,7 @@
 namespace mirror {
 #define kFaceFeatureDim 128
 #define kFaceNameDim 256
+#define Clip(x, y) (x < 0 ? 0 : (x > y ? y : x))
 const int threads_num = 2;
 
 struct ImageInfo {
@@ -36,6 +37,8 @@ struct QueryResult {
 uint8_t* GetImage(const cv::Mat& img_src);
 float InterRectArea(const cv::Rect& a, const cv::Rect& b);
 int ComputeIOU(const cv::Rect& rect1, const cv::Rect& rect2, float* iou, const std::string& type = "UNION");
+int GenerateAnchors(const int& width, const int& height,  const std::vector<std::vector<float>>& min_boxes,
+    const std::vector<float>& strides, std::vector<std::vector<float>>* anchors);
 
 template <typename T>
 int const NMS(const std::vector<T>& inputs, std::vector<T>* result,
@@ -58,18 +61,39 @@ int const NMS(const std::vector<T>& inputs, std::vector<T>* result,
     }
 
     while (indexes.size() > 0) {
-        int good_idx = indexes[0];
-        result->push_back(inputs_tmp[good_idx]);
-        std::vector<int> tmp_indexes = indexes;
+        int index_good = indexes[0];
+        std::vector<int> indexes_tmp = indexes;
         indexes.clear();
-        for (int i = 1; i < tmp_indexes.size(); i++) {
-            int tmp_i = tmp_indexes[i];
+        std::vector<int> indexes_nms;
+        indexes_nms.push_back(index_good);
+        float total = exp(inputs_tmp[index_good].score_);
+        for (int i = 1; i < static_cast<int>(indexes_tmp.size()); ++i) {
+            int index_tmp = indexes_tmp[i];
             float iou = 0.0f;
-            ComputeIOU(inputs_tmp[good_idx].location_, inputs_tmp[tmp_i].location_, &iou, type);
+            ComputeIOU(inputs_tmp[index_good].location_, inputs_tmp[index_tmp].location_, &iou, type);
             if (iou <= threshold) {
-                indexes.push_back(tmp_i);
+                indexes.push_back(index_tmp);
+            } else {
+                indexes_nms.push_back(index_tmp);
+                total += exp(inputs_tmp[index_tmp].score_);
             }
         }
+        if ("BLENDING" == type) {
+            T t;
+            memset(&t, 0, sizeof(t));
+            for (auto index : indexes_nms) {
+                float rate = exp(inputs_tmp[index].score_) / total;
+                t.score_ += rate * inputs_tmp[index].score_;
+				t.location_.x += rate * inputs_tmp[index].location_.x;
+				t.location_.y += rate * inputs_tmp[index].location_.y;
+				t.location_.width += rate * inputs_tmp[index].location_.width;
+				t.location_.height += rate * inputs_tmp[index].location_.height;
+            }
+            result->push_back(t);
+        } else {
+            result->push_back(inputs_tmp[index_good]);
+        }
+
     }
 }
 

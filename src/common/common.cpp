@@ -25,14 +25,46 @@ int ComputeIOU(const cv::Rect& rect1,
     const std::string& type) {
 
     float inter_area = InterRectArea(rect1, rect2);
-    if (type == "UNION") {
-        *iou = inter_area / (rect1.area() + rect2.area() - inter_area);
+    if (type == "MIN") {
+        *iou = inter_area / MIN(rect1.area(), rect2.area());
     }
     else {
-        *iou = inter_area / MIN(rect1.area(), rect2.area());
+        *iou = inter_area / (rect1.area() + rect2.area() - inter_area);
     }
 
     return 0;
+}
+
+int GenerateAnchors(const int & width, const int & height,
+	const std::vector<std::vector<float>>& min_boxes, const std::vector<float>& strides,
+	std::vector<std::vector<float>>* anchors) {
+	std::cout << "start generate priors." << std::endl;
+	anchors->clear();
+	int num_strides = static_cast<int>(strides.size());
+	for (int i = 0; i < num_strides; ++i) {
+		auto stride = strides[i];
+		float scale_x = width / stride;
+		float scale_y = height / stride;
+
+		int num_x = ceil(width / stride);
+		int num_y = ceil(height / stride);
+		for (int y = 0; y < num_y; ++y) {
+			for (int x = 0; x < num_x; ++x) {
+				float center_x = (x + 0.5f) / scale_x;
+				float center_y = (y + 0.5f) / scale_y;
+				for (auto min_box : min_boxes[i]) {
+					float center_w = min_box / width;
+					float center_h = min_box / height;
+					anchors->push_back({ Clip(center_x, 1.0f), Clip(center_y, 1.0f),
+						Clip(center_w, 1.0f), Clip(center_h, 1.0f) });
+				}
+			}
+		}
+	}
+
+	std::cout << "end generate priors." << std::endl;
+
+	return 0;
 }
 
 float CalculateSimilarity(const std::vector<float>&feat1, const std::vector<float>& feat2) {

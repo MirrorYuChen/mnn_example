@@ -25,6 +25,13 @@ public:
     ~CenterfaceFactory() {}
 };
 
+class UltrafaceFactory : public DetecterFactory {
+public:
+    UltrafaceFactory() {}
+    Detecter* CreateDetecter();
+    ~UltrafaceFactory() {}
+};
+
 }
 
 

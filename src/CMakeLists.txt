@@ -15,6 +15,7 @@ set(SRC_FILES
 
     ${PROJECT_SOURCE_DIR}/face/detecter/detecter.cpp
     ${PROJECT_SOURCE_DIR}/face/detecter/centerface/centerface.cpp
+    ${PROJECT_SOURCE_DIR}/face/detecter/ultraface/ultraface.cpp
     ${PROJECT_SOURCE_DIR}/face/landmarker/landmarker.cpp
     ${PROJECT_SOURCE_DIR}/face/landmarker/pfldlandmarker/pfldlandmarker.cpp
     ${PROJECT_SOURCE_DIR}/face/landmarker/zqlandmarker/zqlandmarker.cpp
@@ -53,6 +54,7 @@ target_include_directories(VisionEngine
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/face>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/face/detecter>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/face/detecter/centerface>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/face/detecter/ultraface>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/face/landmarker>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/face/landmarker/pfldlandmarker>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/face/landmarker/zqlandmarker>
