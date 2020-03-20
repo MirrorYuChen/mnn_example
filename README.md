@@ -1,5 +1,6 @@
 # mnn_example
 alibaba MNN, mobilenet classifier, centerface detector, pfld landmarker and zqlandmarker, mobilefacenet
+## 2020.03.20: fix bug in face aligner
 ## 2020.03.05: add ultraface and blending nms
 ## 2020.02.21: add mobilefacenet
 ## 2020.02.20: use template to reduce the reaptly code in NMS
