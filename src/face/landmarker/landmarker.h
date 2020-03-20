@@ -7,7 +7,7 @@ namespace mirror {
 class Landmarker {
 public:
     virtual int Init(const char* model_path) = 0;
-    virtual int ExtractKeypoints(const cv::Mat& img_face, std::vector<cv::Point2f>* keypoints) = 0;
+    virtual int ExtractKeypoints(const cv::Mat& img_src, const cv::Rect& face, std::vector<cv::Point2f>* keypoints) = 0;
     virtual ~Landmarker() {}
 };
 

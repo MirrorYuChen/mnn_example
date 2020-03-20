@@ -18,19 +18,18 @@ int TestLandmarker(int argc, char* argv[]) {
 			cv::circle(img_src, curr_pt, 2, cv::Scalar(255, 0, 255), 2);
 		}
 #endif
-        cv::Mat img_face = img_src(faces[i].location_).clone();
+        cv::Rect face = faces[i].location_;
         std::vector<cv::Point2f> keypoints;
-        vision_engine->ExtractKeypoints(img_face, &keypoints);
+        vision_engine->ExtractKeypoints(img_src, face, &keypoints);
         cv::Mat face_aligned;
-        vision_engine->AlignFace(img_face, keypoints, &face_aligned);
+        vision_engine->AlignFace(img_src, keypoints, &face_aligned);
         std::string face_name = "../../data/images/face" + std::to_string(i) + ".jpg";
         cv::imwrite(face_name.c_str(), face_aligned);
 
-        cv::rectangle(img_src, faces[i].location_, cv::Scalar(0, 255, 0), 2);
-        cv::Point2f offset = cv::Point2f(faces[i].location_.tl());
+        cv::rectangle(img_src, face, cv::Scalar(0, 255, 0), 2);
         int num_keypoints = static_cast<int>(keypoints.size());
         for (int j = 0; j < num_keypoints; ++j) {
-            cv::circle(img_src, keypoints[j] + offset, 1, cv::Scalar(255, 255, 0), 1);
+            cv::circle(img_src, keypoints[j], 1, cv::Scalar(255, 255, 0), 1);
         }
     }
 
@@ -61,7 +60,7 @@ int TestRecognizer(int argc, char* argv[]) {
     return 0;
 }
 
-int ExtractFace(int argc, char* argv[]) {
+int TestAligner(int argc, char* argv[]) {
     std::string img_path = "../../data/images/" + std::string(argv[1]);
     cv::Mat img_src = cv::imread(img_path);
 
@@ -72,19 +71,18 @@ int ExtractFace(int argc, char* argv[]) {
     vision_engine->DetectFace(img_src, &faces);
     int num_faces = static_cast<int>(faces.size());
     for (int i = 0; i < num_faces; ++i) {
-        cv::Mat img_face = img_src(faces[i].location_).clone();
+        cv::Rect face = faces[i].location_;
         std::vector<cv::Point2f> keypoints;
-        vision_engine->ExtractKeypoints(img_face, &keypoints);
+        vision_engine->ExtractKeypoints(img_src, face, &keypoints);
         cv::Mat face_aligned;
-        vision_engine->AlignFace(img_face, keypoints, &face_aligned);
+        vision_engine->AlignFace(img_src, keypoints, &face_aligned);
         std::string face_name = "../../data/images/face" + std::to_string(i) + ".jpg";
         cv::imwrite(face_name.c_str(), face_aligned);
 
-        cv::rectangle(img_src, faces[i].location_, cv::Scalar(0, 255, 0), 2);
-        cv::Point2f offset = cv::Point2f(faces[i].location_.tl());
+        cv::rectangle(img_src, face, cv::Scalar(0, 255, 0), 2);
         int num_keypoints = static_cast<int>(keypoints.size());
         for (int j = 0; j < num_keypoints; ++j) {
-            cv::circle(img_src, keypoints[j] + offset, 1, cv::Scalar(255, 255, 0), 1);
+            cv::circle(img_src, keypoints[j], 1, cv::Scalar(255, 255, 0), 1);
         }
     }
 	cv::imshow("result", img_src);
@@ -110,11 +108,13 @@ int TestDatabase(int argc, char* argv[]) {
     int faces_num = static_cast<int>(faces.size());
     std::cout << "faces number: " << faces_num << std::endl;
     for (int i = 0; i < faces_num; ++i) {
-        cv::Mat face = img_src(faces.at(i).location_).clone();
+        cv::Rect face = faces.at(i).location_;
 		std::vector<cv::Point2f> keypoints;
-		vision_engine->ExtractKeypoints(face, &keypoints);
+		vision_engine->ExtractKeypoints(img_src, face, &keypoints);
+        cv::Mat face_aligned;
+        vision_engine->AlignFace(img_src, keypoints, &face_aligned);
         std::vector<float> feat;
-        vision_engine->ExtractFeature(face, &feat);
+        vision_engine->ExtractFeature(face_aligned, &feat);
 
 #if 0
         vision_engine->Insert(feat, "face" + std::to_string(i));
@@ -142,6 +142,7 @@ int TestDatabase(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
     // return TestRecognizer(argc, argv);
     // return ExtractFace(argc, argv);
-    return TestLandmarker(argc, argv);
+    // return TestLandmarker(argc, argv);
     // return TestDatabase(argc, argv);
+    return TestAligner(argc, argv);
 }

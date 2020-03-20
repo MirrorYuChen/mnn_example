@@ -44,10 +44,10 @@ int Aligner::AlignFace(const cv::Mat & img_src,
 	return impl_->AlignFace(img_src, keypoints, face_aligned);
 }
 
-int Aligner::Impl::AlignFace(const cv::Mat & img_face,
+int Aligner::Impl::AlignFace(const cv::Mat & img_src,
 	const std::vector<cv::Point2f>& keypoints, cv::Mat * face_aligned) {
 	std::cout << "start align face." << std::endl;
-	if (img_face.empty()) {
+	if (img_src.empty()) {
 		std::cout << "input empty." << std::endl;
 		return 10001;
 	}
@@ -82,7 +82,7 @@ int Aligner::Impl::AlignFace(const cv::Mat & img_face,
 	cv::Mat transform = SimilarTransform(src_mat, dst_mat);
 	face_aligned->create(112, 112, CV_32FC3);
 	cv::Mat transfer_mat = transform(cv::Rect(0, 0, 3, 2));
-	cv::warpAffine(img_face.clone(), *face_aligned, transfer_mat, cv::Size(112, 112), 1, 0, 0);
+	cv::warpAffine(img_src.clone(), *face_aligned, transfer_mat, cv::Size(112, 112), 1, 0, 0);
 
 	std::cout << "end align face." << std::endl;
 	return 0;

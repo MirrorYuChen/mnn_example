@@ -63,11 +63,11 @@ public:
     inline int DetectFace(const cv::Mat& img_src, std::vector<FaceInfo>* faces) {
         return face_engine_->DetectFace(img_src, faces);
     }
-    inline int ExtractKeypoints(const cv::Mat& img_face, std::vector<cv::Point2f>* keypoints) {
-        return face_engine_->ExtractKeypoints(img_face, keypoints);
+    inline int ExtractKeypoints(const cv::Mat& img_src, const cv::Rect& face, std::vector<cv::Point2f>* keypoints) {
+        return face_engine_->ExtractKeypoints(img_src, face, keypoints);
     }
-    inline int AlignFace(const cv::Mat& img_face, const std::vector<cv::Point2f>& keypoints, cv::Mat* face_aligned) {
-        return face_engine_->AlignFace(img_face, keypoints, face_aligned);
+    inline int AlignFace(const cv::Mat& img_src, const std::vector<cv::Point2f>& keypoints, cv::Mat* face_aligned) {
+        return face_engine_->AlignFace(img_src, keypoints, face_aligned);
     }
     inline int ExtractFeature(const cv::Mat& img_face, std::vector<float>* feat) {
         return face_engine_->ExtractFeature(img_face, feat);
@@ -124,12 +124,12 @@ int VisionEngine::DetectFace(const cv::Mat& img_src, std::vector<FaceInfo>* face
     return impl_->DetectFace(img_src, faces);
 }
 
-int VisionEngine::ExtractKeypoints(const cv::Mat& img_face, std::vector<cv::Point2f>* keypoints) {
-    return impl_->ExtractKeypoints(img_face, keypoints);
+int VisionEngine::ExtractKeypoints(const cv::Mat& img_src, const cv::Rect& face, std::vector<cv::Point2f>* keypoints) {
+    return impl_->ExtractKeypoints(img_src, face, keypoints);
 }
 
-int VisionEngine::AlignFace(const cv::Mat& img_face, const std::vector<cv::Point2f>& keypoints, cv::Mat* face_aligned) {
-    return impl_->AlignFace(img_face, keypoints, face_aligned);
+int VisionEngine::AlignFace(const cv::Mat& img_src, const std::vector<cv::Point2f>& keypoints, cv::Mat* face_aligned) {
+    return impl_->AlignFace(img_src, keypoints, face_aligned);
 }
 
 int VisionEngine::ExtractFeature(const cv::Mat& img_face, std::vector<float>* feat) {

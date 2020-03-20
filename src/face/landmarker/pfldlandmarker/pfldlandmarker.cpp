@@ -55,17 +55,18 @@ int PFLDLandmarker::Init(const char* model_path) {
     return 0; 
 }
 
-int PFLDLandmarker::ExtractKeypoints(const cv::Mat& img_face, std::vector<cv::Point2f>* keypoints) {
+int PFLDLandmarker::ExtractKeypoints(const cv::Mat& img_src, const cv::Rect& face, std::vector<cv::Point2f>* keypoints) {
     std::cout << "start extract keypoints." << std::endl;
     keypoints->clear();
     if (!initialized_) {
         std::cout << "model uninitialized." << std::endl;
         return 10000;
     }
-    if (img_face.empty()) {
+    if (img_src.empty()) {
         std::cout << "input empty." << std::endl;
         return 10001;
     }
+    cv::Mat img_face = img_src(face).clone();
     int width = img_face.cols;
     int height = img_face.rows;
     cv::Mat img_resized;
@@ -85,8 +86,8 @@ int PFLDLandmarker::ExtractKeypoints(const cv::Mat& img_face, std::vector<cv::Po
     output_landmark->copyToHostTensor(&landmark_tensor);
 
     for (int i = 0; i < 98; ++i) {
-        cv::Point2f curr_pt(landmark_tensor.host<float>()[2 * i + 0] * scale_x,
-                            landmark_tensor.host<float>()[2 * i + 1] * scale_y);
+        cv::Point2f curr_pt(landmark_tensor.host<float>()[2 * i + 0] * scale_x + face.x,
+                            landmark_tensor.host<float>()[2 * i + 1] * scale_y + face.y);
         keypoints->push_back(curr_pt);
     }
 

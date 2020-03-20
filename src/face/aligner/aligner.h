@@ -9,7 +9,7 @@ public:
 	Aligner();
 	~Aligner();
 
-	int AlignFace(const cv::Mat& img_face,
+	int AlignFace(const cv::Mat& img_src,
 		const std::vector<cv::Point2f>& keypoints, cv::Mat* face_aligned);
 
 private:

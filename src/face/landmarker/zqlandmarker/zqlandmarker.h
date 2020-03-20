@@ -17,7 +17,7 @@ public:
     ZQLandmarker();
     ~ZQLandmarker();
     int Init(const char* model_path);
-    int ExtractKeypoints(const cv::Mat& img_face, std::vector<cv::Point2f>* keypoints);
+    int ExtractKeypoints(const cv::Mat& img_src, const cv::Rect& face, std::vector<cv::Point2f>* keypoints);
 
 private:
     bool initialized_;
