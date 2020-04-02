@@ -58,7 +58,7 @@ int Aligner::Impl::AlignFace(const cv::Mat & img_src,
 	int num_keypoints = static_cast<int>(keypoints.size());
 	std::vector<cv::Point2f> points_src(5);
 	switch (num_keypoints) {
-	case 96:
+	case 98:
 		points_src[0] = keypoints[96];
 		points_src[1] = keypoints[97];
 		points_src[2] = keypoints[54];
