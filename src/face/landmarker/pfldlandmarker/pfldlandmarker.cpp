@@ -43,7 +43,7 @@ int PFLDLandmarker::Init(const char* model_path) {
 	img_config.filterType = MNN::CV::BICUBIC;
 	::memcpy(img_config.mean, meanVals_, sizeof(meanVals_));
 	::memcpy(img_config.normal, normVals_, sizeof(normVals_));
-	img_config.sourceFormat = MNN::CV::BGR;
+	img_config.sourceFormat = MNN::CV::RGBA;
 	img_config.destFormat = MNN::CV::RGB;
 	pretreat_ = std::shared_ptr<MNN::CV::ImageProcess>(MNN::CV::ImageProcess::create(img_config));
 	pretreat_->setMatrix(trans);
