@@ -2,6 +2,7 @@
 #define _MOBILENET_SSD_H_
 
 #include <vector>
+#include <memory>
 
 #include "MNN/Interpreter.hpp"
 #include "MNN/MNNDefine.h"
