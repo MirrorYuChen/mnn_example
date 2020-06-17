@@ -1,6 +1,8 @@
 #ifndef _FACE_MOBILEFACENET_H_
 #define _FACE_MOBILEFACENET_H_
 
+#include <memory>
+
 #include "../recognizer.h"
 #include "MNN/Interpreter.hpp"
 #include "MNN/ImageProcess.hpp"
