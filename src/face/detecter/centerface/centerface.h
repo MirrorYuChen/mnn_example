@@ -2,6 +2,7 @@
 #define _FACE_CENTERFACE_H_
 
 #include <vector>
+#include <memory>
 
 #include "MNN/Interpreter.hpp"
 #include "MNN/ImageProcess.hpp"

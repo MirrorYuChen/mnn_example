@@ -2,6 +2,7 @@
 #define _FACE_ULTRAFACE_H_
 
 #include <vector>
+#include <memory>
 #include "opencv2/core.hpp"
 
 #include "MNN/Interpreter.hpp"
