@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "MNN/Interpreter.hpp"
 #include "MNN/ImageProcess.hpp"
