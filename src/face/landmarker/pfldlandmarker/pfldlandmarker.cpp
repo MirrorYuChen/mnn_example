@@ -36,6 +36,8 @@ int PFLDLandmarker::Init(const char* model_path) {
     schedule_config.backendConfig = &backend_config;
     pfld_sess_ = pfld_interpreter_->createSession(schedule_config);
     input_tensor_ = pfld_interpreter_->getSessionInput(pfld_sess_, nullptr);
+    pfld_interpreter_->resizeTensor(input_tensor_, {1, 3, inputSize_.height, inputSize_.width});
+	pfld_interpreter_->resizeSession(pfld_sess_); 
 
     MNN::CV::Matrix trans;
 	trans.setScale(1.0f, 1.0f);
@@ -43,7 +45,7 @@ int PFLDLandmarker::Init(const char* model_path) {
 	img_config.filterType = MNN::CV::BICUBIC;
 	::memcpy(img_config.mean, meanVals_, sizeof(meanVals_));
 	::memcpy(img_config.normal, normVals_, sizeof(normVals_));
-	img_config.sourceFormat = MNN::CV::RGBA;
+	img_config.sourceFormat = MNN::CV::BGR;
 	img_config.destFormat = MNN::CV::RGB;
 	pretreat_ = std::shared_ptr<MNN::CV::ImageProcess>(MNN::CV::ImageProcess::create(img_config));
 	pretreat_->setMatrix(trans);
@@ -73,8 +75,7 @@ int PFLDLandmarker::ExtractKeypoints(const cv::Mat& img_src, const cv::Rect& fac
     cv::resize(img_face, img_resized, inputSize_);
     float scale_x = static_cast<float>(width) / inputSize_.width;
     float scale_y = static_cast<float>(height) / inputSize_.height;
-    uint8_t* data_ptr = GetImage(img_resized);
-	pretreat_->convert(data_ptr, inputSize_.width, inputSize_.height, 0, input_tensor_);
+	pretreat_->convert(img_resized.data, inputSize_.width, inputSize_.height, 0, input_tensor_);
 
     // run session
     pfld_interpreter_->runSession(pfld_sess_);

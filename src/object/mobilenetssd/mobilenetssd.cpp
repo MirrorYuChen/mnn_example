@@ -41,7 +41,7 @@ int MobilenetSSD::Init(const char * root_path) {
 	img_config.filterType = MNN::CV::BICUBIC;
 	::memcpy(img_config.mean, meanVals_, sizeof(meanVals_));
 	::memcpy(img_config.normal, normVals_, sizeof(normVals_));
-	img_config.sourceFormat = MNN::CV::RGBA;
+	img_config.sourceFormat = MNN::CV::BGR;
 	img_config.destFormat = MNN::CV::RGB;
 	pretreat_data_ = std::shared_ptr<MNN::CV::ImageProcess>(MNN::CV::ImageProcess::create(img_config));
 	pretreat_data_->setMatrix(trans);
@@ -74,8 +74,7 @@ int MobilenetSSD::DetectObject(const cv::Mat & img_src, std::vector<ObjectInfo>*
 	// preprocess
 	cv::Mat img_resized;
 	cv::resize(img_src, img_resized, inputSize_);
-	uint8_t* data_ptr = GetImage(img_resized);
-	pretreat_data_->convert(data_ptr, inputSize_.width, inputSize_.height, 0, input_tensor_);
+	pretreat_data_->convert(img_resized.data, inputSize_.width, inputSize_.height, 0, input_tensor_);
 	
 	mobilenetssd_interpreter_->runSession(mobilenetssd_sess_);
 	std::string output_name = "detection_out";

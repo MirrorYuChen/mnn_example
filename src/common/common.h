@@ -34,7 +34,6 @@ struct QueryResult {
     float sim_;
 };
 
-uint8_t* GetImage(const cv::Mat& img_src);
 float InterRectArea(const cv::Rect& a, const cv::Rect& b);
 int ComputeIOU(const cv::Rect& rect1, const cv::Rect& rect2, float* iou, const std::string& type = "UNION");
 int GenerateAnchors(const int& width, const int& height,  const std::vector<std::vector<float>>& min_boxes,
@@ -51,7 +50,7 @@ int const NMS(const std::vector<T>& inputs, std::vector<T>* result,
     inputs_tmp.assign(inputs.begin(), inputs.end());
     std::sort(inputs_tmp.begin(), inputs_tmp.end(),
     [](const T& a, const T& b) {
-        return a.score_ > b.score_;
+        return a.score_ < b.score_;
     });
 
     std::vector<int> indexes(inputs_tmp.size());

@@ -5,14 +5,6 @@
 
 
 namespace mirror {
-
-uint8_t* GetImage(const cv::Mat& img_src) {
-    uchar* data_ptr = new uchar[img_src.total() * 4];
-    cv::Mat img_tmp(img_src.size(), CV_8UC4, data_ptr);
-    cv::cvtColor(img_src, img_tmp, cv::COLOR_BGR2RGBA, 4);
-    return (uint8_t*)img_tmp.data;
-}
-
 float InterRectArea(const cv::Rect& a, const cv::Rect& b) {
     cv::Point left_top = cv::Point(MAX(a.x, b.x), MAX(a.y, b.y));
     cv::Point right_bottom = cv::Point(MIN(a.br().x, b.br().x), MIN(a.br().y, b.br().y));

@@ -42,6 +42,7 @@ int UltraFace::Init(const char * model_path) {
 	ultraface_sess_ = ultraface_interpreter_->createSession(schedule_config);
 	input_tensor_ = ultraface_interpreter_->getSessionInput(ultraface_sess_, nullptr);
 	ultraface_interpreter_->resizeTensor(input_tensor_, {1, 3, inputSize_.height, inputSize_.width});
+	ultraface_interpreter_->resizeSession(ultraface_sess_); 
 
 	MNN::CV::Matrix trans;
 	trans.setScale(1.0f, 1.0f);

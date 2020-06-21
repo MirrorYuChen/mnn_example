@@ -43,7 +43,7 @@ int Centerface::Init(const char * model_path) {
 	img_config.filterType = MNN::CV::BICUBIC;
 	::memcpy(img_config.mean, meanVals_, sizeof(meanVals_));
 	::memcpy(img_config.normal, normVals_, sizeof(normVals_));
-	img_config.sourceFormat = MNN::CV::RGBA;
+	img_config.sourceFormat = MNN::CV::BGR;
 	img_config.destFormat = MNN::CV::RGB;
 	pretreat_ = std::shared_ptr<MNN::CV::ImageProcess>(MNN::CV::ImageProcess::create(img_config));
 	pretreat_->setMatrix(trans);
@@ -78,8 +78,7 @@ int Centerface::DetectFace(const cv::Mat & img_src, std::vector<FaceInfo>* faces
 
 	cv::Mat img_resized;
 	cv::resize(img_src, img_resized, cv::Size(width_resized, height_resized));
-	uint8_t* data_ptr = GetImage(img_resized);
-	pretreat_->convert(data_ptr, width_resized, height_resized, 0, input_tensor_);
+	pretreat_->convert(img_resized.data, width_resized, height_resized, 0, input_tensor_);
 
 	// run session
 	centerface_interpreter_->runSession(centerface_sess_);
