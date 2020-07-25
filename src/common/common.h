@@ -94,6 +94,7 @@ int const NMS(const std::vector<T>& inputs, std::vector<T>* result,
         }
 
     }
+    return 0;
 }
 
 float CalculateSimilarity(const std::vector<float>&feat1, const std::vector<float>& feat2);
