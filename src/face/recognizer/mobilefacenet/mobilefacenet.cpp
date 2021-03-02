@@ -66,6 +66,7 @@ int Mobilefacenet::ExtractFeature(const cv::Mat& img_face, std::vector<float>* f
     auto nhwc_size   = nhwc_tensor->size();
     ::memcpy(nhwc_data, img_resized.data, nhwc_size);
     input_tensor_->copyFromHostTensor(nhwc_tensor);
+    delete nhwc_tensor;
 
     mobilefacenet_interpreter_->runSession(mobilefacenet_sess_);
 
